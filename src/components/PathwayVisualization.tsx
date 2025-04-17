@@ -6,16 +6,40 @@ import {
   Layers, AlertTriangle, Users, HelpCircle, Target, Globe, 
   Briefcase, ChevronRight, ChevronDown, X
 } from "lucide-react";
-
-// Import the content data
-import { pathwayData, PathwayNodeType } from "@/data/pathwayData";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
+import { fetchPathwayNodes, PathwayNodeType } from "@/services/pathwayService";
 
 const PathwayVisualization = () => {
+  const [pathwayData, setPathwayData] = useState<PathwayNodeType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedNode, setSelectedNode] = useState<PathwayNodeType | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const pathwayRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+
+  // Fetch pathway data from Supabase
+  useEffect(() => {
+    async function loadPathwayData() {
+      try {
+        setLoading(true);
+        const nodes = await fetchPathwayNodes();
+        setPathwayData(nodes);
+      } catch (error) {
+        console.error("Error loading pathway data:", error);
+        toast({
+          title: "Error loading pathway data",
+          description: "Please try refreshing the page.",
+          variant: "destructive"
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    loadPathwayData();
+  }, [toast]);
 
   useEffect(() => {
     // Show pathway after a small delay for animation purposes
@@ -44,7 +68,7 @@ const PathwayVisualization = () => {
   const getNodeIcon = (iconName: string | undefined) => {
     if (!iconName) return <ChevronRight className="w-5 h-5" />;
     
-    const iconMap = {
+    const iconMap: Record<string, React.ComponentType<any>> = {
       "Book": Book,
       "BookOpen": BookOpen,
       "Triangle": Triangle,
@@ -61,9 +85,17 @@ const PathwayVisualization = () => {
       "Briefcase": Briefcase
     };
     
-    const IconComponent = iconMap[iconName as keyof typeof iconMap] || ChevronRight;
+    const IconComponent = iconMap[iconName] || ChevronRight;
     return <IconComponent className="w-5 h-5" />;
   };
+
+  if (loading) {
+    return (
+      <div className="py-12 px-4 flex justify-center items-center min-h-screen">
+        <div className="animate-pulse text-pathway">Loading pathway data...</div>
+      </div>
+    );
+  }
 
   return (
     <section className="py-12 px-4 bg-gradient-to-b from-white to-pathway-light min-h-screen">

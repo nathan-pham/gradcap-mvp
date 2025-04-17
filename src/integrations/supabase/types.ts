@@ -9,7 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      pathway_nodes: {
+        Row: {
+          created_at: string
+          description: string
+          details: string[] | null
+          icon: string | null
+          id: number
+          node_id: string
+          position: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          details?: string[] | null
+          icon?: string | null
+          id?: number
+          node_id: string
+          position: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          details?: string[] | null
+          icon?: string | null
+          id?: number
+          node_id?: string
+          position?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

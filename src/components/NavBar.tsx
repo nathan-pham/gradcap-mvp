@@ -1,6 +1,7 @@
 
 import { GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -15,7 +16,14 @@ const NavBar = () => {
           <span className="font-bold text-xl text-pathway-darker">GradCap</span>
         </a>
         
-        <Button className="bg-pathway hover:bg-pathway-darker">Get Started</Button>
+        <div className="flex gap-4">
+          <Link to="/admin">
+            <Button variant="outline" className="border-pathway text-pathway hover:bg-pathway-light">
+              Admin
+            </Button>
+          </Link>
+          <Button className="bg-pathway hover:bg-pathway-darker">Get Started</Button>
+        </div>
       </div>
     </header>
   );
