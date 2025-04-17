@@ -4,112 +4,200 @@ export interface PathwayNodeType {
   title: string;
   description: string;
   details?: string[];
+  icon?: string;
 }
 
 export const pathwayData: PathwayNodeType[] = [
   {
-    id: "actuary",
-    title: "Actuary",
-    description: "Actuaries use mathematics, statistics, and financial theory to analyze the financial costs of risk and uncertainty. They are essential in the insurance industry and help businesses evaluate the risk of certain events occurring.",
+    id: "degree",
+    title: "What Is Actuarial Degree?",
+    description: "An Actuarial Science degree focuses on applying mathematical and statistical methods to assess risk in insurance, finance, and other industries.",
     details: [
-      "Work at the intersection of finance, probability, and statistics",
-      "Use mathematics and data to assess risk and model future outcomes",
-      "Solve real-world problems for insurance, superannuation, finance & consulting",
-      "Require strong analytical skills and problem-solving abilities"
-    ]
+      "Combines mathematics, statistics, and business knowledge",
+      "Prepares students to assess financial implications of future events",
+      "Teaches risk management and financial analysis techniques",
+      "Provides foundation for professional actuarial certification exams"
+    ],
+    icon: "Book"
   },
   {
-    id: "student-life",
-    title: "Student Life",
-    description: "Student life for actuary majors involves a rigorous study schedule balanced with practical applications of complex mathematical concepts. Students develop strong foundations in statistics, mathematics, finance, and economics.",
+    id: "prerequisites",
+    title: "Prerequisites",
+    description: "Strong foundation in mathematics is essential before pursuing an actuarial degree.",
     details: [
-      "Challenging coursework with focus on math, statistics, finance, and economics",
-      "Internship opportunities with insurance companies and consulting firms",
-      "Active student societies and networking events with industry professionals",
-      "Balance between theoretical learning and practical problem-solving"
-    ]
+      "Advanced mathematics: calculus, algebra, and statistics",
+      "Strong analytical and problem-solving skills",
+      "Basic understanding of economics and finance concepts",
+      "Computer literacy and basic programming knowledge"
+    ],
+    icon: "Triangle"
   },
   {
-    id: "excellence",
-    title: "Excellence",
-    description: "Excellence in the actuarial field requires continuous learning, analytical precision, and the ability to communicate complex numerical concepts clearly to non-specialists.",
+    id: "daily-life",
+    title: "Day to Day Life",
+    description: "Student life involves a mixture of theoretical learning and practical applications through various assessment methods.",
     details: [
-      "Strong mathematical and statistical foundation is essential",
-      "Problem-solving skills and attention to detail distinguish top performers",
-      "Communication skills to explain complex concepts to non-technical audiences",
-      "Professional certification through rigorous exams demonstrates excellence"
-    ]
+      "Lectures in mathematics, statistics, economics, and finance",
+      "Practical lab sessions for statistical software and programming",
+      "Individual and group assignments applying theoretical concepts",
+      "Regular quizzes and mid-term examinations",
+      "Research projects analyzing real-world financial data"
+    ],
+    icon: "Calendar"
+  },
+  {
+    id: "duration",
+    title: "Duration",
+    description: "Typical actuarial science programs run over standard academic terms with specific structures.",
+    details: [
+      "Bachelor's degree: 3-4 years (6-8 semesters)",
+      "Master's degree: 1-2 additional years",
+      "Approximately 12-15 weeks per semester",
+      "20-25 hours of class time per week",
+      "Additional 15-20 hours of self-study recommended weekly"
+    ],
+    icon: "Clock"
+  },
+  {
+    id: "commitment",
+    title: "Commitment",
+    description: "Pursuing an actuarial degree requires significant dedication both during studies and for professional exams.",
+    details: [
+      "High workload with mathematics-intensive courses",
+      "Extensive homework and practice problems",
+      "Self-study for professional certification exams alongside coursework",
+      "Summer internships in related fields",
+      "Continuous learning even after graduation"
+    ],
+    icon: "BookOpen"
+  },
+  {
+    id: "assessments",
+    title: "Assessments",
+    description: "Students are evaluated through various assessment methods that test both theoretical knowledge and practical applications.",
+    details: [
+      "Individual assignments (60-70% of course evaluations)",
+      "Group projects and presentations (15-20%)",
+      "Practical case studies analyzing real-world data",
+      "Written examinations with both computational and theoretical questions",
+      "Capstone projects in final year"
+    ],
+    icon: "FileText"
+  },
+  {
+    id: "success-strategies",
+    title: "How to Succeed",
+    description: "Success in actuarial studies requires specific approaches and study techniques.",
+    details: [
+      "Establish strong mathematical foundations early in the program",
+      "Develop consistent study habits and time management skills",
+      "Form study groups for difficult concepts",
+      "Begin preparation for professional exams during undergraduate studies",
+      "Seek internship opportunities as early as possible",
+      "Utilize professor office hours and university resources"
+    ],
+    icon: "Award"
+  },
+  {
+    id: "topics",
+    title: "Specific Topics",
+    description: "Actuarial science programs cover a broad range of technical and business subjects.",
+    details: [
+      "Probability and statistics",
+      "Financial mathematics and interest theory",
+      "Life contingencies and mortality models",
+      "Risk theory and credibility",
+      "Investment and asset management",
+      "Insurance and pension systems",
+      "Regulatory frameworks and compliance",
+      "Predictive modeling and data analytics"
+    ],
+    icon: "Layers"
   },
   {
     id: "challenges",
-    title: "Challenges",
-    description: "Pursuing an actuarial career comes with specific challenges including rigorous professional exams, staying current with evolving regulations, and balancing technical expertise with business acumen.",
+    title: "Common Challenges",
+    description: "Students often face specific difficulties when pursuing actuarial studies.",
     details: [
-      "Series of challenging professional exams alongside full-time work",
-      "Need to constantly update knowledge with changing regulations",
-      "Balancing technical expertise with business understanding",
-      "High-pressure decision-making that affects financial wellbeing of organizations"
-    ]
+      "Mathematical rigor and complex statistical concepts",
+      "Balancing coursework with professional exam preparation",
+      "Applying theoretical knowledge to practical problems",
+      "Keeping up with evolving industry regulations",
+      "Developing both technical skills and business acumen",
+      "Securing relevant internships in competitive markets"
+    ],
+    icon: "AlertTriangle"
   },
   {
-    id: "solutions",
-    title: "Solutions",
-    description: "Solutions to the challenges of an actuarial career path include structured study programs, mentorship, professional development resources, and industry networking.",
+    id: "extracurricular",
+    title: "Extra Curricular",
+    description: "Activities outside the classroom that enhance actuarial education and career prospects.",
     details: [
-      "Structured study programs and exam preparation resources",
-      "Mentorship from experienced actuaries within your organization",
-      "Professional societies offering continuing education and support",
-      "Developing time management skills to balance work and study",
-      "Building a strong professional network within the industry"
-    ]
+      "Actuarial student clubs and societies",
+      "Case competitions in risk management and finance",
+      "Networking events with industry professionals",
+      "Research assistantships with faculty members",
+      "Professional development workshops",
+      "Volunteer work with financial literacy programs"
+    ],
+    icon: "Users"
   },
   {
-    id: "beyond-books",
-    title: "Beyond the Books",
-    description: "Beyond academic learning, successful actuaries develop business acumen, professional networks, and specialized industry knowledge through practical experiences and continuous engagement with the profession.",
+    id: "misconceptions",
+    title: "Misconceptions",
+    description: "Common misunderstandings about actuarial studies and the profession.",
     details: [
-      "Internships provide real-world application of classroom concepts",
-      "Industry conferences and seminars offer cutting-edge knowledge",
-      "Professional societies provide networking and mentorship opportunities",
-      "Soft skills like presentation, negotiation, and leadership are increasingly valued"
-    ]
-  },
-  {
-    id: "myths",
-    title: "Myths",
-    description: "There are several misconceptions about the actuarial profession that can discourage potential candidates from pursuing this rewarding career path.",
-    details: [
-      "Myth: Actuaries only work with numbers and have limited social interaction",
-      "Reality: Modern actuaries regularly collaborate with teams and present to stakeholders",
-      "Myth: You need a perfect math score to become an actuary",
-      "Reality: While strong math skills are important, problem-solving and business acumen are equally valuable",
-      "Myth: The career path is narrow and limited to insurance",
-      "Reality: Actuaries work in diverse fields including consulting, healthcare, banking, and government"
-    ]
+      "Myth: Actuaries only work with insurance",
+      "Reality: Actuaries work in various fields including healthcare, investments, banking, and government",
+      "Myth: It's all about mathematics with little human interaction",
+      "Reality: Actuaries frequently collaborate with teams and present findings to stakeholders",
+      "Myth: Only mathematically gifted students can succeed",
+      "Reality: Persistent study and application are more important than natural talent"
+    ],
+    icon: "HelpCircle"
   },
   {
     id: "outcomes",
     title: "Outcomes",
-    description: "Graduates with actuarial qualifications enjoy excellent career prospects with opportunities across multiple industries, competitive salaries, and clear paths for career advancement.",
+    description: "Expected results and achievements from completing an actuarial science degree.",
     details: [
-      "Strong job security and high demand for qualified actuaries",
-      "Competitive starting salaries with excellent progression",
-      "Clear career advancement path through professional certification",
-      "Transferable skills applicable to various financial and analytical roles",
-      "Options to work in insurance, consulting, banking, healthcare, and government"
-    ]
+      "Strong foundation for professional actuarial certification exams",
+      "Highly developed quantitative and analytical skills",
+      "Problem-solving abilities for complex risk scenarios",
+      "Understanding of financial and insurance markets",
+      "Preparation for graduate studies in related fields",
+      "Readiness for entry-level positions in actuarial departments"
+    ],
+    icon: "Target"
   },
   {
-    id: "careers",
-    title: "Careers",
-    description: "The actuarial qualification opens doors to diverse career opportunities beyond traditional insurance roles, with growing demand in emerging areas like climate risk, healthcare analytics, and data science.",
+    id: "impact",
+    title: "Impact on the World",
+    description: "How actuaries contribute to society and global economic stability.",
     details: [
-      "Insurance: pricing, reserving, risk management, product development",
-      "Consulting: advising clients on risk management, mergers and acquisitions",
-      "Banking: asset-liability management, capital modeling",
-      "Healthcare: pricing medical insurance, analyzing healthcare costs",
-      "Enterprise Risk Management: identifying and mitigating organizational risks",
-      "Emerging fields: climate risk analysis, cybersecurity risk, data science"
-    ]
+      "Ensuring financial security systems remain viable (pensions, insurance)",
+      "Developing models for climate change financial risk",
+      "Creating healthcare funding systems that remain sustainable",
+      "Helping businesses manage unforeseen risks and disasters",
+      "Informing public policy on financial security matters",
+      "Developing models for emerging risks like cyber security"
+    ],
+    icon: "Globe"
+  },
+  {
+    id: "career",
+    title: "Career Paths",
+    description: "Various professional trajectories available to actuarial science graduates.",
+    details: [
+      "Insurance actuary (life, health, property, casualty)",
+      "Consulting actuary for businesses and governments",
+      "Enterprise risk management specialist",
+      "Investment or pension actuary",
+      "Healthcare actuary analyzing medical costs",
+      "Data scientist specializing in risk analytics",
+      "Product development and pricing specialist",
+      "Chief Risk Officer (executive level)"
+    ],
+    icon: "Briefcase"
   }
 ];

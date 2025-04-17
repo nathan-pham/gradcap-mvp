@@ -1,15 +1,25 @@
 
 import { useState, useEffect, useRef } from "react";
-import { ChevronRight, Lightbulb, BookOpen, Award, Users, Briefcase, Shapes, HeartHandshake } from "lucide-react";
 import { motion } from "framer-motion";
+import { 
+  Book, BookOpen, Triangle, Calendar, Clock, FileText, Award, 
+  Layers, AlertTriangle, Users, HelpCircle, Target, Globe, 
+  Briefcase, ChevronRight, Lightbulb, X, Plus, ArrowRight
+} from "lucide-react";
 
 // Import the content data
 import { pathwayData, PathwayNodeType } from "@/data/pathwayData";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const PathwayVisualization = () => {
   const [selectedNode, setSelectedNode] = useState<PathwayNodeType | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const pathwayRef = useRef<HTMLDivElement>(null);
+  const [visibleSection, setVisibleSection] = useState<'start' | 'middle' | 'end'>('start');
 
   useEffect(() => {
     // Show pathway after a small delay for animation purposes
@@ -21,7 +31,7 @@ const PathwayVisualization = () => {
   }, []);
 
   const handleNodeClick = (node: PathwayNodeType) => {
-    setSelectedNode(node);
+    setSelectedNode(prev => prev?.id === node.id ? null : node);
     // Scroll the info card into view on mobile
     if (window.innerWidth < 768) {
       setTimeout(() => {
@@ -30,156 +40,294 @@ const PathwayVisualization = () => {
     }
   };
 
-  // Get icon component based on node type
-  const getNodeIcon = (type: string) => {
-    switch (type) {
-      case "Actuary":
-        return <Briefcase className="w-5 h-5" />;
-      case "Student Life":
-        return <Users className="w-5 h-5" />;
-      case "Excellence":
-        return <Award className="w-5 h-5" />;
-      case "Challenges":
-        return <Shapes className="w-5 h-5" />;
-      case "Beyond the Books":
+  // Get icon component based on node title
+  const getNodeIcon = (iconName: string | undefined) => {
+    if (!iconName) return <ChevronRight className="w-5 h-5" />;
+    
+    switch (iconName) {
+      case "Book":
+        return <Book className="w-5 h-5" />;
+      case "BookOpen":
         return <BookOpen className="w-5 h-5" />;
-      case "Myths":
-        return <Lightbulb className="w-5 h-5" />;
-      case "Outcomes":
-        return <HeartHandshake className="w-5 h-5" />;
-      case "Careers":
+      case "Triangle":
+        return <Triangle className="w-5 h-5" />;
+      case "Calendar":
+        return <Calendar className="w-5 h-5" />;
+      case "Clock":
+        return <Clock className="w-5 h-5" />;
+      case "FileText":
+        return <FileText className="w-5 h-5" />;
+      case "Award":
+        return <Award className="w-5 h-5" />;
+      case "Layers":
+        return <Layers className="w-5 h-5" />;
+      case "AlertTriangle":
+        return <AlertTriangle className="w-5 h-5" />;
+      case "Users":
+        return <Users className="w-5 h-5" />;
+      case "HelpCircle":
+        return <HelpCircle className="w-5 h-5" />;
+      case "Target":
+        return <Target className="w-5 h-5" />;
+      case "Globe":
+        return <Globe className="w-5 h-5" />;
+      case "Briefcase":
         return <Briefcase className="w-5 h-5" />;
       default:
         return <ChevronRight className="w-5 h-5" />;
     }
   };
 
-  return (
-    <section className="bg-white py-12 px-4">
-      <div className="container mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-3">
-          Interactive Career Pathway
-        </h2>
-        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          Select any node in the pathway to explore detailed information about that aspect of an Actuary career path.
-        </p>
+  // Group pathway data into sections
+  const startNodes = pathwayData.slice(0, 5); // First 5 nodes
+  const middleNodes = pathwayData.slice(5, 10); // Next 5 nodes
+  const endNodes = pathwayData.slice(10); // Remaining nodes
 
-        {/* Pathway visualization */}
+  const handleSectionToggle = (section: 'start' | 'middle' | 'end') => {
+    setVisibleSection(section);
+    // Give time for DOM updates before scrolling
+    setTimeout(() => {
+      document.getElementById(`section-${section}`)?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  return (
+    <section className="py-12 px-4 bg-gradient-to-b from-white to-pathway-light min-h-screen">
+      <div className="container mx-auto max-w-6xl">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-pathway-darker mb-2">
+            Actuarial Science Education Pathway
+          </h1>
+          <p className="text-gray-600 max-w-3xl mx-auto">
+            Explore the complete educational journey of an actuarial science student, from prerequisites through to career outcomes.
+          </p>
+        </div>
+
+        {/* Pathway Navigation */}
+        <div className="flex justify-center gap-2 md:gap-6 mb-8 sticky top-20 z-30 bg-white bg-opacity-90 p-2 rounded-lg shadow-sm">
+          <Button 
+            variant={visibleSection === 'start' ? 'default' : 'outline'} 
+            onClick={() => handleSectionToggle('start')}
+            className="text-sm md:text-base"
+          >
+            <Book className="w-4 h-4 mr-1" /> Beginning
+          </Button>
+          <Button 
+            variant={visibleSection === 'middle' ? 'default' : 'outline'} 
+            onClick={() => handleSectionToggle('middle')}
+            className="text-sm md:text-base"
+          >
+            <FileText className="w-4 h-4 mr-1" /> Middle
+          </Button>
+          <Button 
+            variant={visibleSection === 'end' ? 'default' : 'outline'} 
+            onClick={() => handleSectionToggle('end')}
+            className="text-sm md:text-base"
+          >
+            <Target className="w-4 h-4 mr-1" /> Advanced
+          </Button>
+        </div>
+
+        {/* Pathway visualization - responsive grid layout */}
         <div 
           ref={pathwayRef}
-          className="relative mx-auto max-w-5xl overflow-x-auto pb-8 pathway-container"
+          className="relative mx-auto"
         >
-          <div className="min-w-[900px] h-32 relative">
-            {/* Horizontal connection line */}
-            <div className="pathway-line top-1/2 left-[50px] right-[50px] transform -translate-y-1/2"></div>
-
-            {/* Solutions node - connected to Challenges */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-6">
-              {isVisible && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.8 }}
-                  className={`pathway-node flex items-center gap-2 ${selectedNode?.id === "solutions" ? "active" : ""}`}
-                  onClick={() => handleNodeClick(pathwayData.find(n => n.id === "solutions")!)}
-                >
-                  <Lightbulb className="w-5 h-5" />
-                  <span>Solutions</span>
-                </motion.div>
-              )}
-              
-              {/* Vertical connection to Challenges */}
-              {isVisible && (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.9 }}
-                  className="h-16 border-l-2 border-dashed border-pathway opacity-70 absolute left-1/2 transform -translate-x-1/2"
-                ></motion.div>
-              )}
-            </div>
-
-            {/* Main pathway nodes */}
-            <div className="flex justify-between items-center h-full">
-              {pathwayData
-                .filter(node => !["solutions"].includes(node.id))
-                .map((node, index) => (
-                  isVisible && (
-                    <motion.div
-                      key={node.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                      className={`pathway-node flex items-center gap-2 ${selectedNode?.id === node.id ? "active" : ""}`}
+          {/* First section of nodes */}
+          <div id="section-start" className={cn(
+            "transition-all duration-500 ease-in-out",
+            visibleSection !== 'start' && "opacity-50"
+          )}>
+            <h2 className="text-xl font-semibold mb-6 flex items-center text-pathway-darker">
+              <Book className="w-5 h-5 mr-2" /> Beginning Your Journey
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+              {startNodes.map((node, index) => (
+                isVisible && (
+                  <motion.div
+                    key={node.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 * index }}
+                  >
+                    <Card 
+                      className={cn(
+                        "cursor-pointer transition-all duration-300 hover:shadow-md border-l-4",
+                        selectedNode?.id === node.id 
+                          ? "border-l-pathway" 
+                          : "border-l-transparent hover:border-l-pathway-light"
+                      )}
                       onClick={() => handleNodeClick(node)}
                     >
-                      {getNodeIcon(node.title)}
-                      <span>{node.title}</span>
-                    </motion.div>
-                  )
-                ))}
+                      <CardHeader className="p-4 pb-0">
+                        <div className="flex items-center gap-2">
+                          <div className="bg-pathway bg-opacity-10 p-2 rounded-full">
+                            {getNodeIcon(node.icon)}
+                          </div>
+                          <CardTitle className="text-lg">{node.title}</CardTitle>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <CardDescription>{node.description}</CardDescription>
+                        {selectedNode?.id === node.id && node.details && (
+                          <motion.div 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            className="mt-4 space-y-2"
+                          >
+                            {node.details.map((detail, idx) => (
+                              <div key={idx} className="flex items-start gap-2">
+                                <div className="mt-1 text-pathway">
+                                  <ChevronRight size={14} />
+                                </div>
+                                <p className="text-sm text-gray-700">{detail}</p>
+                              </div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )
+              ))}
+            </div>
+          </div>
+          
+          {/* Middle section nodes with connecting arrow */}
+          <div className="flex justify-center my-6">
+            <ArrowRight className="text-pathway w-10 h-10" />
+          </div>
+          
+          {/* Middle section of nodes */}
+          <div id="section-middle" className={cn(
+            "transition-all duration-500 ease-in-out",
+            visibleSection !== 'middle' && "opacity-50"
+          )}>
+            <h2 className="text-xl font-semibold mb-6 flex items-center text-pathway-darker">
+              <FileText className="w-5 h-5 mr-2" /> Deepening Your Knowledge
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+              {middleNodes.map((node, index) => (
+                isVisible && (
+                  <motion.div
+                    key={node.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 * index + 0.5 }}
+                  >
+                    <Card 
+                      className={cn(
+                        "cursor-pointer transition-all duration-300 hover:shadow-md border-l-4",
+                        selectedNode?.id === node.id 
+                          ? "border-l-pathway" 
+                          : "border-l-transparent hover:border-l-pathway-light"
+                      )}
+                      onClick={() => handleNodeClick(node)}
+                    >
+                      <CardHeader className="p-4 pb-0">
+                        <div className="flex items-center gap-2">
+                          <div className="bg-pathway bg-opacity-10 p-2 rounded-full">
+                            {getNodeIcon(node.icon)}
+                          </div>
+                          <CardTitle className="text-lg">{node.title}</CardTitle>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <CardDescription>{node.description}</CardDescription>
+                        {selectedNode?.id === node.id && node.details && (
+                          <motion.div 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            className="mt-4 space-y-2"
+                          >
+                            {node.details.map((detail, idx) => (
+                              <div key={idx} className="flex items-start gap-2">
+                                <div className="mt-1 text-pathway">
+                                  <ChevronRight size={14} />
+                                </div>
+                                <p className="text-sm text-gray-700">{detail}</p>
+                              </div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )
+              ))}
+            </div>
+          </div>
+          
+          {/* Final connecting arrow */}
+          <div className="flex justify-center my-6">
+            <ArrowRight className="text-pathway w-10 h-10" />
+          </div>
+          
+          {/* Final section of nodes */}
+          <div id="section-end" className={cn(
+            "transition-all duration-500 ease-in-out",
+            visibleSection !== 'end' && "opacity-50"
+          )}>
+            <h2 className="text-xl font-semibold mb-6 flex items-center text-pathway-darker">
+              <Target className="w-5 h-5 mr-2" /> Completing Your Journey
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {endNodes.map((node, index) => (
+                isVisible && (
+                  <motion.div
+                    key={node.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 * index + 1 }}
+                  >
+                    <Card 
+                      className={cn(
+                        "cursor-pointer transition-all duration-300 hover:shadow-md border-l-4",
+                        selectedNode?.id === node.id 
+                          ? "border-l-pathway" 
+                          : "border-l-transparent hover:border-l-pathway-light"
+                      )}
+                      onClick={() => handleNodeClick(node)}
+                    >
+                      <CardHeader className="p-4 pb-0">
+                        <div className="flex items-center gap-2">
+                          <div className="bg-pathway bg-opacity-10 p-2 rounded-full">
+                            {getNodeIcon(node.icon)}
+                          </div>
+                          <CardTitle className="text-lg">{node.title}</CardTitle>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <CardDescription>{node.description}</CardDescription>
+                        {selectedNode?.id === node.id && node.details && (
+                          <motion.div 
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            className="mt-4 space-y-2"
+                          >
+                            {node.details.map((detail, idx) => (
+                              <div key={idx} className="flex items-start gap-2">
+                                <div className="mt-1 text-pathway">
+                                  <ChevronRight size={14} />
+                                </div>
+                                <p className="text-sm text-gray-700">{detail}</p>
+                              </div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )
+              ))}
             </div>
           </div>
         </div>
-
-        {/* Information display section */}
-        <div id="info-section" className="mt-8 md:mt-16">
-          {selectedNode ? (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="info-card max-w-4xl mx-auto"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                {getNodeIcon(selectedNode.title)}
-                <h3 className="text-xl md:text-2xl font-bold text-pathway-darker">{selectedNode.title}</h3>
-              </div>
-              
-              <p className="text-gray-700 mb-6">{selectedNode.description}</p>
-              
-              {selectedNode.details && (
-                <div className="space-y-4">
-                  {selectedNode.details.map((detail, index) => (
-                    <div key={index} className="info-bubble">
-                      <p>{detail}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-              
-              {selectedNode.id === "actuary" && (
-                <div className="mt-8 grid md:grid-cols-2 gap-6">
-                  <div className="bg-pathway-light p-5 rounded-lg">
-                    <h4 className="font-semibold text-lg mb-3">What is Actuary?</h4>
-                    <p className="mb-3">Work at the intersection of finance, probability, and statistics</p>
-                    <p className="mb-3">Use maths and data to assess risk and model future outcomes</p>
-                    <p>Solve real-world problems for insurance, superannuation, finance & consulting</p>
-                  </div>
-                  
-                  <div className="bg-pathway-light p-5 rounded-lg">
-                    <h4 className="font-semibold text-lg mb-3">Universities that offer Actuary Studies</h4>
-                    <p className="mb-3">Multiple universities offer bachelor of actuary degrees</p>
-                    <p className="mb-3">Content is similar across programs due to industry accreditation</p>
-                    <p>Some universities offer accelerated programs and specialized tracks</p>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          ) : (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="text-center p-8 max-w-2xl mx-auto bg-pathway-light rounded-lg"
-            >
-              <Lightbulb className="w-12 h-12 text-pathway mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-3">Select a node to explore</h3>
-              <p className="text-gray-600">
-                Click on any of the pathway nodes above to see detailed information about that aspect of the career path.
-              </p>
-            </motion.div>
-          )}
+        
+        {/* Optional: Instructions for users */}
+        <div className="mt-12 text-center text-gray-500 text-sm">
+          <p>Click on any card to view details about that stage of the educational pathway.</p>
+          <p>Use the navigation buttons to jump between different sections of the pathway.</p>
         </div>
       </div>
     </section>
